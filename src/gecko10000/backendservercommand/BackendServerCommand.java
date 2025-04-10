@@ -36,7 +36,6 @@ public class BackendServerCommand extends JavaPlugin implements Listener, Plugin
 
     // Uses a player to retrieve servers from the proxy.
     private void getServers(Player player) {
-        areServersRetrieved = true;
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("GetServers");
         player.sendPluginMessage(this, "BungeeCord", out.toByteArray());
@@ -44,11 +43,13 @@ public class BackendServerCommand extends JavaPlugin implements Listener, Plugin
 
     @Override
     public void onPluginMessageReceived(@NotNull String channel, @NotNull Player player, byte @NotNull [] message) {
+        if (areServersRetrieved) return;
         if (!channel.equals("BungeeCord")) return;
         ByteArrayDataInput in = ByteStreams.newDataInput(message);
         String subchannel = in.readUTF();
         if (!subchannel.equals("GetServers")) return;
         String allServers = in.readUTF();
+        areServersRetrieved = true;
         serverNames.addAll(List.of(allServers.split(", ")));
     }
 

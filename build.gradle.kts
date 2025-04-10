@@ -16,7 +16,7 @@ sourceSets {
 
 
 group = "gecko10000.backendservercommand"
-val versionString = "0.1"
+val versionString = "0.2"
 version = versionString
 
 bukkit {

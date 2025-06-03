@@ -16,7 +16,7 @@ sourceSets {
 
 
 group = "gecko10000.backendservercommand"
-val versionString = "0.3"
+val versionString = "0.4"
 version = versionString
 
 paper {
@@ -30,6 +30,7 @@ paper {
         register("backendservercommand.use.other")
     }
     bootstrapper = "$group.CommandBootstrap"
+    foliaSupported = true
 }
 
 repositories {

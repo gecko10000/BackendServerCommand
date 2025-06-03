@@ -14,7 +14,6 @@ import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
 import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSelectorArgumentResolver;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -63,7 +62,8 @@ public class BackendServerCommand extends JavaPlugin implements Listener, Plugin
     @EventHandler
     private void onJoin(PlayerJoinEvent event) {
         if (areServersRetrieved) return;
-        Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> getServers(event.getPlayer()), 2);
+        Player player = event.getPlayer();
+        player.getScheduler().runDelayed(this, t -> getServers(player), null, 2);
     }
 
     private void send(Player player, String server) {

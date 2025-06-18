@@ -16,7 +16,7 @@ sourceSets {
 
 
 group = "gecko10000.backendservercommand"
-val versionString = "0.4"
+val versionString = "0.5"
 version = versionString
 
 paper {

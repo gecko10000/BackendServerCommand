@@ -91,8 +91,10 @@ public class BackendServerCommand extends JavaPlugin implements Listener, Plugin
             return Command.SINGLE_SUCCESS;
         }
         PlayerSelectorArgumentResolver resolver = ctx.getArgument("player", PlayerSelectorArgumentResolver.class);
-        Player target = resolver.resolve(ctx.getSource()).getFirst();
-        send(target, serverName);
+        List<Player> targets = resolver.resolve(ctx.getSource());
+        for (Player target : targets) {
+            send(target, serverName);
+        }
         return Command.SINGLE_SUCCESS;
     }
 
@@ -104,7 +106,7 @@ public class BackendServerCommand extends JavaPlugin implements Listener, Plugin
                     return builder.buildFuture();
                 })
                 .executes(this::selfServerCommand);
-        RequiredArgumentBuilder<CommandSourceStack, PlayerSelectorArgumentResolver> playerArg = Commands.argument("player", ArgumentTypes.player()).requires(s -> s.getSender().hasPermission("backendservercommand.use.other"));
+        RequiredArgumentBuilder<CommandSourceStack, PlayerSelectorArgumentResolver> playerArg = Commands.argument("player", ArgumentTypes.players()).requires(s -> s.getSender().hasPermission("backendservercommand.use.other"));
         return Commands.literal("server")
                 .requires(s -> s.getSender().hasPermission("backendservercommand.use"))
                 .then(serverNameArg.then(playerArg.executes(this::playerServerCommand)))
